@@ -21,6 +21,22 @@ def get_uptime():
 def index():
     return send_from_directory('static', 'index.html')
 
+@app.route('/api/loadavg')
+def get_loadavg():
+    bin_path = os.path.join(BIN_DIR, "sys_loadavg")
+    try:
+        if not os.path.exists(bin_path):
+            return jsonify({"error": "Binary not found. Run 'make build' first."}), 500
+        result = subprocess.check_output([bin_path], text=True)
+        loads = result.strip().split(", ")
+        return jsonify({
+            "load1": loads[0],
+            "load5": loads[1],
+            "load15": loads[2]
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 # Это нужно, чтобы Flask отдавал CSS/JS из /static/
 @app.route('/<path:filename>')
 def static_files(filename):
