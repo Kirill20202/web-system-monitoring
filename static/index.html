@@ -4,20 +4,26 @@
     <meta charset="UTF-8">
     <title>Web System Monitoring</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
         <h1>🖥️ Web System Monitoring</h1>
-        
-        <div class="metric-card">
-            <h2>⏱️ Uptime</h2>
-            <div id="uptime">Loading...</div>
+
+        <div class="metric" id="uptime">Loading uptime...</div>
+        <div class="metric" id="loadavg">Loading load average...</div>
+        <div class="metric" id="meminfo">Loading memory info...</div>
+
+        <div class="metric">
+            <h3>📈 Load Average History (Last 20 samples)</h3>
+            <canvas id="loadChart" width="400" height="200"></canvas>
         </div>
 
-        <div class="metric-card">
-            <h2>📊 Load Average</h2>
-            <div id="loadavg">Loading...</div>
+        <div class="metric" id="top">
+            <h3>Top 5 Processes by CPU</h3>
+            <pre id="top-content">Loading...</pre>
         </div>
+
     </div>
     <script src="script.js"></script>
 </body>

@@ -5,6 +5,10 @@ body {
     margin: 0;
     padding: 40px 20px;
 }
+#loadChart {
+    max-width: 800px;
+    margin: 0 auto;
+}
 
 .container {
     max-width: 800px;

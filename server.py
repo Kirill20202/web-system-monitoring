@@ -37,6 +37,37 @@ def get_loadavg():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/api/meminfo')
+def get_meminfo():
+    bin_path = os.path.join(BIN_DIR, "sys_meminfo")
+    try:
+        if not os.path.exists(bin_path):
+            return jsonify({"error": "Meminfo binary not found. Run 'make build'."}), 500
+        result = subprocess.check_output([bin_path], text=True).strip()
+        parts = result.split()
+        if len(parts) != 3:
+            return jsonify({"error": "Invalid output format"}), 500
+        return jsonify({
+            "mem_total_mb": int(parts[0]),
+            "mem_free_mb": int(parts[1]),
+            "mem_available_mb": int(parts[2])
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/top')
+def get_top():
+    bin_path = os.path.join(BIN_DIR, "sys_top")
+    try:
+        if not os.path.exists(bin_path):
+            return jsonify({"error": "Top binary not found. Run 'make build'."}), 500
+        result = subprocess.check_output([bin_path], text=True)
+        # Разбиваем на строки
+        lines = result.strip().split('\n')
+        return jsonify({"processes": lines})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 # Это нужно, чтобы Flask отдавал CSS/JS из /static/
 @app.route('/<path:filename>')
 def static_files(filename):
