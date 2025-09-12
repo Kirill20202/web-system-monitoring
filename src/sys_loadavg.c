@@ -3,6 +3,8 @@
 
 int main() {
     double load[3];
+    getloadavg(load, 3);
+
     if (getloadavg(load, 3) == -1) {
         fprintf(stderr, "Failed to get load average\n");
         return 1;
