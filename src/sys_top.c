@@ -4,8 +4,8 @@
 
 
 int main() {
-    // Запускаем ps aux, сортируем по %CPU (убывание), берём первые 6 строк (1 заголовок + 5 процессов)
-    FILE *fp = popen("ps aux --sort=-%cpu | head -6", "r");
+    // Запускаем ps с выбранными колонками (без COMMAND), сортируем по %CPU (убывание), берём первые 6 строк (1 заголовок + 5 процессов)
+    FILE *fp = popen("ps -o user,pid,%cpu,%mem,vsz,rss,tty,stat,start,time --sort=-%cpu | head -6", "r");
     if (!fp) {
         fprintf(stderr, "Failed to run ps command\n");
         return 1;
